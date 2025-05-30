@@ -15,16 +15,16 @@ const Dashboard: React.FC<DashboardProps> = ({ totalIncome, totalExpense, balanc
         <div className="stat-card">
           <h3 className="stat-label">Total Balance</h3>
           <p className={`stat-value ${balance >= 0 ? 'positive' : 'negative'}`}>
-            ${balance.toFixed(2)}
+            Rs{balance.toFixed(2)}
           </p>
         </div>
         <div className="stat-card">
           <h3 className="stat-label">Total Income</h3>
-          <p className="stat-value positive">${totalIncome.toFixed(2)}</p>
+          <p className="stat-value positive">Rs{totalIncome.toFixed(2)}</p>
         </div>
         <div className="stat-card">
           <h3 className="stat-label">Total Expenses</h3>
-          <p className="stat-value negative">${totalExpense.toFixed(2)}</p>
+          <p className="stat-value negative">Rs{totalExpense.toFixed(2)}</p>
         </div>
       </div>
     </div>

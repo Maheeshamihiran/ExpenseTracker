@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { DollarSign, PlusCircle, MinusCircle, ListOrdered } from 'lucide-react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import './App.css';
 
 type Transaction = {
@@ -30,6 +31,28 @@ function App() {
     .reduce((sum, t) => sum + t.amount, 0);
 
   const balance = totalIncome - totalExpense;
+
+  // Calculate income data for pie chart
+  const incomeChartData = useMemo(() => {
+    const incomeTransactions = transactions.filter(t => t.type === 'income');
+    
+    // Group by category and sum amounts
+    const categoryMap = new Map<string, number>();
+    
+    incomeTransactions.forEach(transaction => {
+      const currentAmount = categoryMap.get(transaction.category) || 0;
+      categoryMap.set(transaction.category, currentAmount + transaction.amount);
+    });
+    
+    // Convert to array format for PieChart
+    return Array.from(categoryMap.entries()).map(([name, value]) => ({
+      name,
+      value
+    }));
+  }, [transactions]);
+
+  // Colors for the pie chart
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -101,26 +124,126 @@ function App() {
               <div className="stat-card">
                 <h3>Total Balance</h3>
                 <p className={balance >= 0 ? 'positive' : 'negative'}>
-                  ${balance.toFixed(2)}
+                  Rs{balance.toFixed(2)}
                 </p>
               </div>
               <div className="stat-card">
                 <h3>Total Income</h3>
-                <p className="positive">${totalIncome.toFixed(2)}</p>
+                <p className="positive">Rs{totalIncome.toFixed(2)}</p>
               </div>
               <div className="stat-card">
                 <h3>Total Expenses</h3>
-                <p className="negative">${totalExpense.toFixed(2)}</p>
+                <p className="negative">Rs{totalExpense.toFixed(2)}</p>
               </div>
             </div>
           </div>
         )}
 
-        {(activeTab === 'addIncome' || activeTab === 'addExpense') && (
+        {activeTab === 'addIncome' && (
+          <div className="income-form-layout">
+            <div className="income-form-left">
+              <div className="form-container">
+                <h2 className="page-title">Add Income</h2>
+                <form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <label htmlFor="title">Title</label>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      required
+                      className="form-input"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="amount">Amount</label>
+                    <input
+                      type="number"
+                      id="amount"
+                      name="amount"
+                      min="0"
+                      step="0.01"
+                      required
+                      className="form-input"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="date">Date</label>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      required
+                      className="form-input"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="category">Category</label>
+                    <select
+                      id="category"
+                      name="category"
+                      required
+                      className="form-input"
+                    >
+                      {categories.income.map(
+                        category => (
+                          <option key={category} value={category}>
+                            {category}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="description">Description</label>
+                    <textarea
+                      id="description"
+                      name="description"
+                      className="form-input"
+                      rows={3}
+                    />
+                  </div>
+                  <button type="submit" className="submit-button">
+                    Add Income
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div className="income-chart-right">
+              <div className="income-chart-container">
+                <h3>Income by Category</h3>
+                {incomeChartData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                      <Pie
+                        data={incomeChartData}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      >
+                        {incomeChartData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip formatter={(value) => `$${Number(value).toFixed(2)}`} />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="income-chart-empty">No income data available</div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'addExpense' && (
           <div className="form-container">
-            <h2 className="page-title">
-              Add {activeTab === 'addIncome' ? 'Income' : 'Expense'}
-            </h2>
+            <h2 className="page-title">Add Expense</h2>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="title">Title</label>
@@ -162,7 +285,7 @@ function App() {
                   required
                   className="form-input"
                 >
-                  {(activeTab === 'addIncome' ? categories.income : categories.expense).map(
+                  {categories.expense.map(
                     category => (
                       <option key={category} value={category}>
                         {category}
@@ -181,7 +304,7 @@ function App() {
                 />
               </div>
               <button type="submit" className="submit-button">
-                Add {activeTab === 'addIncome' ? 'Income' : 'Expense'}
+                Add Expense
               </button>
             </form>
           </div>

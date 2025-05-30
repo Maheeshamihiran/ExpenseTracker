@@ -1,0 +1,27 @@
+.income-chart-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+
+.income-chart-container h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #1f2937;
+  text-align: center;
+}
+
+.income-chart-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #6b7280;
+  font-style: italic;
+}
