@@ -1,6 +1,7 @@
 .app-container {
   display: flex;
   min-height: 100vh;
+  flex-direction: row;
 }
 
 .sidebar {
@@ -10,14 +11,29 @@
   color: white;
 }
 
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
 .app-title {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 2rem;
   color: #00ff9d;
+  margin: 0;
+}
+
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
 }
 
 .nav-links {
@@ -52,6 +68,7 @@
   flex: 1;
   padding: 2rem;
   background-color: #f5f5f5;
+  overflow-y: auto;
 }
 
 .page-title {
@@ -168,6 +185,7 @@
   display: flex;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .filter-button {
@@ -215,6 +233,7 @@
   border-radius: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-left: 4px solid transparent;
+  flex-wrap: wrap;
 }
 
 .transaction-item.income {
@@ -223,6 +242,11 @@
 
 .transaction-item.expense {
   border-left-color: #ff4d4d;
+}
+
+.transaction-info {
+  flex: 1;
+  min-width: 200px;
 }
 
 .transaction-info h3 {
@@ -271,6 +295,8 @@
 .transaction-buttons {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .edit-button {
@@ -317,10 +343,12 @@
 .income-form-layout {
   display: flex;
   gap: 2rem;
+  flex-wrap: wrap;
 }
 
 .income-form-left {
   flex: 1;
+  min-width: 300px;
 }
 
 .income-chart-right {
@@ -354,4 +382,85 @@
   height: 300px;
   color: #6b7280;
   font-style: italic;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    padding: 1rem;
+  }
+  
+  .mobile-menu-toggle {
+    display: block;
+  }
+  
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+  
+  .nav-links.mobile-open {
+    display: flex;
+  }
+  
+  .main-content {
+    padding: 1rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .income-form-layout {
+    flex-direction: column;
+  }
+  
+  .income-form-left, .income-chart-right {
+    width: 100%;
+  }
+  
+  .transaction-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .transaction-amount-section {
+    width: 100%;
+    align-items: flex-start;
+    margin-top: 1rem;
+  }
+  
+  .transaction-buttons {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Tablet responsiveness */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .sidebar {
+    width: 250px;
+    padding: 1.5rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .income-form-layout {
+    flex-direction: column;
+  }
+}
+
+/* Ensure charts are responsive */
+.recharts-responsive-container {
+  width: 100% !important;
+  height: 300px !important;
 }

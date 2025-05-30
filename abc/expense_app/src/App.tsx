@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { DollarSign, PlusCircle, MinusCircle, ListOrdered, Edit } from 'lucide-react';
+import { DollarSign, PlusCircle, MinusCircle, ListOrdered, Edit, Menu } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import './App.css';
 
@@ -18,6 +18,7 @@ function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
   const [transactionFilter, setTransactionFilter] = useState<'all' | 'income' | 'expense'>('all');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const categories = {
     income: ['Salary', 'Freelance', 'Investments', 'Other'],
@@ -160,35 +161,55 @@ function App() {
   return (
     <div className="app-container">
       <nav className="sidebar">
-        <h1 className="app-title">
-          <DollarSign />
-          Expense Tracker
-        </h1>
-        <div className="nav-links">
+        <div className="sidebar-header">
+          <h1 className="app-title">
+            <DollarSign />
+            Expense Tracker
+          </h1>
+          <button 
+            className="mobile-menu-toggle"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <Menu size={24} />
+          </button>
+        </div>
+        <div className={`nav-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>
           <button
             className={`nav-link ${activeTab === 'dashboard' ? 'active' : ''}`}
-            onClick={() => setActiveTab('dashboard')}
+            onClick={() => {
+              setActiveTab('dashboard');
+              setMobileMenuOpen(false);
+            }}
           >
             <DollarSign size={20} />
             Dashboard
           </button>
           <button
             className={`nav-link ${activeTab === 'addIncome' ? 'active' : ''}`}
-            onClick={() => setActiveTab('addIncome')}
+            onClick={() => {
+              setActiveTab('addIncome');
+              setMobileMenuOpen(false);
+            }}
           >
             <PlusCircle size={20} />
             Add Income
           </button>
           <button
             className={`nav-link ${activeTab === 'addExpense' ? 'active' : ''}`}
-            onClick={() => setActiveTab('addExpense')}
+            onClick={() => {
+              setActiveTab('addExpense');
+              setMobileMenuOpen(false);
+            }}
           >
             <MinusCircle size={20} />
             Add Expense
           </button>
           <button
             className={`nav-link ${activeTab === 'transactions' ? 'active' : ''}`}
-            onClick={() => setActiveTab('transactions')}
+            onClick={() => {
+              setActiveTab('transactions');
+              setMobileMenuOpen(false);
+            }}
           >
             <ListOrdered size={20} />
             Transactions
