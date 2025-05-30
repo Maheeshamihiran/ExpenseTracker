@@ -17,6 +17,7 @@ function App() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'addExpense' | 'addIncome' | 'transactions'>('dashboard');
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+  const [transactionFilter, setTransactionFilter] = useState<'all' | 'income' | 'expense'>('all');
 
   const categories = {
     income: ['Salary', 'Freelance', 'Investments', 'Other'],
@@ -97,6 +98,14 @@ function App() {
       }))
       .sort((a, b) => a.date.localeCompare(b.date));
   }, [transactions]);
+
+  // Filter transactions based on selected filter
+  const filteredTransactions = useMemo(() => {
+    if (transactionFilter === 'all') {
+      return transactions;
+    }
+    return transactions.filter(t => t.type === transactionFilter);
+  }, [transactions, transactionFilter]);
 
   // Colors for the pie chart
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
@@ -472,39 +481,65 @@ function App() {
         {activeTab === 'transactions' && (
           <div className="transactions">
             <h2 className="page-title">Transactions</h2>
+            
+            <div className="transaction-filters">
+              <button 
+                className={`filter-button ${transactionFilter === 'all' ? 'active' : ''}`}
+                onClick={() => setTransactionFilter('all')}
+              >
+                All
+              </button>
+              <button 
+                className={`filter-button income ${transactionFilter === 'income' ? 'active' : ''}`}
+                onClick={() => setTransactionFilter('income')}
+              >
+                Income
+              </button>
+              <button 
+                className={`filter-button expense ${transactionFilter === 'expense' ? 'active' : ''}`}
+                onClick={() => setTransactionFilter('expense')}
+              >
+                Expense
+              </button>
+            </div>
+            
             <div className="transactions-list">
-              {transactions.map(transaction => (
-                <div
-                  key={transaction.id}
-                  className="transaction-item"
-                >
-                  <div className="transaction-info">
-                    <h3>{transaction.title}</h3>
-                    <p className="transaction-category">{transaction.category}</p>
-                    <p className="transaction-date">{transaction.date}</p>
-                    <p className="transaction-description">{transaction.description}</p>
-                  </div>
-                  <div className="transaction-amount-section">
-                    <p className={`transaction-amount ${transaction.type}`}>
-                      ${transaction.amount.toFixed(2)}
-                    </p>
-                    <div className="transaction-buttons">
-                      <button
-                        onClick={() => editTransaction(transaction)}
-                        className="edit-button"
-                      >
-                        <Edit size={16} /> Edit
-                      </button>
-                      <button
-                        onClick={() => deleteTransaction(transaction.id)}
-                        className="delete-button"
-                      >
-                        Delete
-                      </button>
+              {filteredTransactions.length > 0 ? (
+                filteredTransactions.map(transaction => (
+                  <div
+                    key={transaction.id}
+                    className={`transaction-item ${transaction.type}`}
+                  >
+                    <div className="transaction-info">
+                      <h3>{transaction.title}</h3>
+                      <p className="transaction-category">{transaction.category}</p>
+                      <p className="transaction-date">{transaction.date}</p>
+                      <p className="transaction-description">{transaction.description}</p>
+                    </div>
+                    <div className="transaction-amount-section">
+                      <p className={`transaction-amount ${transaction.type}`}>
+                        ${transaction.amount.toFixed(2)}
+                      </p>
+                      <div className="transaction-buttons">
+                        <button
+                          onClick={() => editTransaction(transaction)}
+                          className="edit-button"
+                        >
+                          <Edit size={16} /> Edit
+                        </button>
+                        <button
+                          onClick={() => deleteTransaction(transaction.id)}
+                          className="delete-button"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <div className="no-transactions">No transactions found</div>
+              )}
             </div>
           </div>
         )}

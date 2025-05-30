@@ -164,6 +164,42 @@
   background-color: #d5d5d5;
 }
 
+.transaction-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-button {
+  padding: 0.5rem 1.5rem;
+  background-color: #e5e5e5;
+  color: #666666;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-button:hover {
+  background-color: #d5d5d5;
+}
+
+.filter-button.active {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+.filter-button.income.active {
+  background-color: #00cc7a;
+  color: white;
+}
+
+.filter-button.expense.active {
+  background-color: #ff4d4d;
+  color: white;
+}
+
 .transactions-list {
   display: flex;
   flex-direction: column;
@@ -178,6 +214,15 @@
   padding: 1.5rem;
   border-radius: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid transparent;
+}
+
+.transaction-item.income {
+  border-left-color: #00cc7a;
+}
+
+.transaction-item.expense {
+  border-left-color: #ff4d4d;
 }
 
 .transaction-info h3 {
@@ -257,6 +302,15 @@
 
 .delete-button:hover {
   background-color: #ff3333;
+}
+
+.no-transactions {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  color: #666666;
+  font-style: italic;
 }
 
 /* Income/Expense chart layout styles */
