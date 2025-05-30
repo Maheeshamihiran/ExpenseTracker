@@ -126,8 +126,13 @@
   box-shadow: 0 0 0 2px rgba(0, 255, 157, 0.1);
 }
 
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
 .submit-button {
-  width: 100%;
+  flex: 1;
   padding: 0.75rem;
   background-color: #00ff9d;
   color: #1a1a1a;
@@ -141,6 +146,22 @@
 
 .submit-button:hover {
   background-color: #00cc7a;
+}
+
+.cancel-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #e5e5e5;
+  color: #666666;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancel-button:hover {
+  background-color: #d5d5d5;
 }
 
 .transactions-list {
@@ -202,6 +223,28 @@
   color: #ff4d4d;
 }
 
+.transaction-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-button {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.edit-button:hover {
+  background-color: #2563eb;
+}
+
 .delete-button {
   padding: 0.5rem 1rem;
   background-color: #ff4d4d;
@@ -215,7 +258,8 @@
 .delete-button:hover {
   background-color: #ff3333;
 }
-/* Income chart layout styles */
+
+/* Income/Expense chart layout styles */
 .income-form-layout {
   display: flex;
   gap: 2rem;
@@ -230,7 +274,7 @@
   min-width: 300px;
 }
 
-.income-chart-container {
+.income-chart-container, .chart-container {
   background-color: white;
   border-radius: 8px;
   padding: 1rem;
@@ -238,22 +282,22 @@
   margin-top: 1rem;
 }
 
-.income-chart-container h3 {
+.chart-container {
+  margin-top: 2rem;
+}
+
+.income-chart-container h3, .chart-container h3 {
   margin-top: 0;
   margin-bottom: 1rem;
   color: #1f2937;
   text-align: center;
 }
 
-.income-chart-empty {
+.income-chart-empty, .chart-empty {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 300px;
-  background-color: white;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: #6b7280;
   font-style: italic;
 }
