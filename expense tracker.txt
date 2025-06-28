@@ -1,0 +1,106 @@
+1. USERS
+
+USERS(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+)
+
+2. CATEGORIES
+
+CATEGORIES(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    type ENUM('income', 'expense') NOT NULL
+)
+
+
+3. INCOME
+
+
+INCOME(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    category_id BIGINT,
+    title VARCHAR(100),
+    amount DECIMAL(10,2) NOT NULL,
+    date DATE NOT NULL,
+    description TEXT,
+    notes TEXT,
+    FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES CATEGORIES(id)
+)
+
+
+
+
+4. EXPENSE
+
+EXPENSE(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    category_id BIGINT,
+    title VARCHAR(100),
+    amount DECIMAL(10,2) NOT NULL,
+    date DATE NOT NULL,
+    description TEXT,
+    notes TEXT,
+    FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES CATEGORIES(id)
+)
+
+
+database creation  ==============================
+-- Create database
+
+
+CREATE DATABASE IF NOT EXISTS expense_tracker;
+USE expense_tracker;
+
+-- 1. USERS Table
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+-- 2. CATEGORIES Table
+CREATE TABLE categories (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    type ENUM('income', 'expense') NOT NULL
+);
+
+-- 3. INCOME Table
+CREATE TABLE income (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    category_id BIGINT,
+    title VARCHAR(100),
+    amount DECIMAL(10, 2) NOT NULL,
+    date DATE NOT NULL,
+    description TEXT,
+    notes TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES categories(id)
+);
+
+-- 4. EXPENSE Table
+CREATE TABLE expense (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    category_id BIGINT,
+    title VARCHAR(100),
+    amount DECIMAL(10, 2) NOT NULL,
+    date DATE NOT NULL,
+    description TEXT,
+    notes TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES categories(id)
+);
+
+
+
+

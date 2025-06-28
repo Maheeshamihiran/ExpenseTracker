@@ -16,7 +16,7 @@ const Dashboard: React.FC<DashboardProps> = ({ totalIncome, totalExpense, balanc
           <h3 className="stat-label">Total Balance</h3>
           <p className={`stat-value ${balance >= 0 ? 'positive' : 'negative'}`}>
             Rs{balance.toFixed(2)}
-          </p>
+ npm          </p>
         </div>
         <div className="stat-card">
           <h3 className="stat-label">Total Income</h3>
