@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
-import { DollarSign, PlusCircle, MinusCircle, ListOrdered, Edit, Menu } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { DollarSign, PlusCircle, MinusCircle, ListOrdered, Edit, Menu, Timer } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { transactionAPI } from './services/api';
 import './App.css';
 
 type Transaction = {
@@ -19,19 +20,37 @@ function App() {
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
   const [transactionFilter, setTransactionFilter] = useState<'all' | 'income' | 'expense'>('all');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const categories = {
     income: ['Salary', 'Freelance', 'Investments', 'Other'],
     expense: ['Food', 'Transportation', 'Utilities', 'Entertainment', 'Shopping']
   };
 
+  // Load transactions on component mount
+  useEffect(() => {
+    loadTransactions();
+  }, []);
+
+  const loadTransactions = async () => {
+    try {
+      setLoading(true);
+      const data = await transactionAPI.getAll();
+      setTransactions(data);
+    } catch (error) {
+      console.error('Error loading transactions:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const totalIncome = transactions
     .filter(t => t.type === 'income')
-    .reduce((sum, t) => sum + t.amount, 0);
+    .reduce((sum, t) => sum + Number(t.amount), 0);
 
   const totalExpense = transactions
     .filter(t => t.type === 'expense')
-    .reduce((sum, t) => sum + t.amount, 0);
+    .reduce((sum, t) => sum + Number(t.amount), 0);
 
   const balance = totalIncome - totalExpense;
 
@@ -44,7 +63,7 @@ function App() {
     
     incomeTransactions.forEach(transaction => {
       const currentAmount = categoryMap.get(transaction.category) || 0;
-      categoryMap.set(transaction.category, currentAmount + transaction.amount);
+      categoryMap.set(transaction.category, currentAmount + Number(transaction.amount));
     });
     
     // Convert to array format for PieChart
@@ -63,7 +82,7 @@ function App() {
     
     expenseTransactions.forEach(transaction => {
       const currentAmount = categoryMap.get(transaction.category) || 0;
-      categoryMap.set(transaction.category, currentAmount + transaction.amount);
+      categoryMap.set(transaction.category, currentAmount + Number(transaction.amount));
     });
     
     // Convert to array format for PieChart
@@ -82,9 +101,9 @@ function App() {
       const current = dateMap.get(date) || { income: 0, expense: 0 };
       
       if (transaction.type === 'income') {
-        current.income += transaction.amount;
+        current.income += Number(transaction.amount);
       } else {
-        current.expense += transaction.amount;
+        current.expense += Number(transaction.amount);
       }
       
       dateMap.set(date, current);
@@ -111,46 +130,60 @@ function App() {
   // Colors for the pie chart
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
     
-    if (editingTransaction) {
-      // Update existing transaction
-      const updatedTransaction: Transaction = {
-        ...editingTransaction,
-        title: formData.get('title') as string,
-        amount: parseFloat(formData.get('amount') as string),
-        date: formData.get('date') as string,
-        category: formData.get('category') as string,
-        description: formData.get('description') as string
-      };
+    try {
+      setLoading(true);
       
-      setTransactions(transactions.map(t => 
-        t.id === editingTransaction.id ? updatedTransaction : t
-      ));
-      setEditingTransaction(null);
-    } else {
-      // Add new transaction
-      const transaction: Transaction = {
-        id: Math.random().toString(36).substr(2, 9),
-        type: activeTab === 'addIncome' ? 'income' : 'expense',
-        title: formData.get('title') as string,
-        amount: parseFloat(formData.get('amount') as string),
-        date: formData.get('date') as string,
-        category: formData.get('category') as string,
-        description: formData.get('description') as string
-      };
+      if (editingTransaction) {
+        // Update existing transaction
+        const updatedTransaction = {
+          title: formData.get('title') as string,
+          amount: parseFloat(formData.get('amount') as string),
+          date: formData.get('date') as string,
+          category: formData.get('category') as string,
+          description: formData.get('description') as string
+        };
+        
+        await transactionAPI.update(editingTransaction.id, updatedTransaction);
+        setEditingTransaction(null);
+      } else {
+        // Add new transaction
+        const transaction = {
+          id: Math.random().toString(36).substr(2, 9),
+          type: activeTab === 'addIncome' ? 'income' : 'expense',
+          title: formData.get('title') as string,
+          amount: parseFloat(formData.get('amount') as string),
+          date: formData.get('date') as string,
+          category: formData.get('category') as string,
+          description: formData.get('description') as string
+        };
+        
+        await transactionAPI.create(transaction);
+      }
       
-      setTransactions([...transactions, transaction]);
+      form.reset();
+      await loadTransactions();
+    } catch (error) {
+      console.error('Error saving transaction:', error);
+    } finally {
+      setLoading(false);
     }
-    
-    form.reset();
   };
 
-  const deleteTransaction = (id: string) => {
-    setTransactions(transactions.filter(t => t.id !== id));
+  const deleteTransaction = async (id: string) => {
+    try {
+      setLoading(true);
+      await transactionAPI.delete(id);
+      await loadTransactions();
+    } catch (error) {
+      console.error('Error deleting transaction:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const editTransaction = (transaction: Transaction) => {
@@ -218,6 +251,8 @@ function App() {
       </nav>
 
       <main className="main-content">
+        {loading && <div className="loading">Loading...</div>}
+        
         {activeTab === 'dashboard' && (
           <div className="dashboard">
             <h2 className="page-title">Dashboard</h2>
@@ -340,7 +375,7 @@ function App() {
                         Cancel
                       </button>
                     )}
-                    <button type="submit" className="submit-button">
+                    <button type="submit" className="submit-button" disabled={loading}>
                       {editingTransaction ? 'Update Income' : 'Add Income'}
                     </button>
                   </div>
@@ -460,7 +495,7 @@ function App() {
                         Cancel
                       </button>
                     )}
-                    <button type="submit" className="submit-button">
+                    <button type="submit" className="submit-button" disabled={loading}>
                       {editingTransaction ? 'Update Expense' : 'Add Expense'}
                     </button>
                   </div>
@@ -539,18 +574,20 @@ function App() {
                     </div>
                     <div className="transaction-amount-section">
                       <p className={`transaction-amount ${transaction.type}`}>
-                        ${transaction.amount.toFixed(2)}
+                        ${Number(transaction.amount).toFixed(2)}
                       </p>
                       <div className="transaction-buttons">
                         <button
                           onClick={() => editTransaction(transaction)}
                           className="edit-button"
+                          disabled={loading}
                         >
                           <Edit size={16} /> Edit
                         </button>
                         <button
                           onClick={() => deleteTransaction(transaction.id)}
                           className="delete-button"
+                          disabled={loading}
                         >
                           Delete
                         </button>

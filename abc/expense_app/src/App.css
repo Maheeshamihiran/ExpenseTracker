@@ -71,6 +71,18 @@
   overflow-y: auto;
 }
 
+.loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  z-index: 1000;
+}
+
 .page-title {
   font-size: 1.5rem;
   font-weight: bold;
@@ -163,6 +175,11 @@
 
 .submit-button:hover {
   background-color: #00cc7a;
+}
+
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .cancel-button {
@@ -316,6 +333,11 @@
   background-color: #2563eb;
 }
 
+.edit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .delete-button {
   padding: 0.5rem 1rem;
   background-color: #ff4d4d;
@@ -328,6 +350,11 @@
 
 .delete-button:hover {
   background-color: #ff3333;
+}
+
+.delete-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .no-transactions {
