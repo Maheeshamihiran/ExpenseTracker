@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { DollarSign, PlusCircle, MinusCircle, ListOrdered, Edit, Menu, Timer } from 'lucide-react';
+import { DollarSign, PlusCircle, MinusCircle, ListOrdered, Edit, Menu, LogOut } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { transactionAPI } from './services/api';
 import './App.css';
@@ -14,7 +14,11 @@ type Transaction = {
   description: string;
 };
 
-function App() {
+interface AppProps {
+  onLogout: () => void;
+}
+
+function App({ onLogout }: AppProps) {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'addExpense' | 'addIncome' | 'transactions'>('dashboard');
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
@@ -199,12 +203,21 @@ function App() {
             <DollarSign />
             Expense Tracker
           </h1>
-          <button 
-            className="mobile-menu-toggle"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            <Menu size={24} />
-          </button>
+          <div className="header-buttons">
+            <button 
+              className="logout-button"
+              onClick={onLogout}
+              title="Logout"
+            >
+              <LogOut size={20} />
+            </button>
+            <button 
+              className="mobile-menu-toggle"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <Menu size={24} />
+            </button>
+          </div>
         </div>
         <div className={`nav-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>
           <button
