@@ -22,8 +22,6 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoToSignup }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login data:', formData);
-    // Simple validation - in real app, validate against backend
     if (formData.name && formData.password) {
       onLogin();
     }
@@ -55,83 +53,11 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoToSignup }) => {
         </div>
         
         <div className="illustration">
-          <div className="background-shapes">
-            <div className="circle-1"></div>
-            <div className="circle-2"></div>
-          </div>
-          
-          <div className="main-elements">
-            <div className="clipboard">
-              <div className="clipboard-header"></div>
-              <div className="clipboard-content">
-                <div className="pie-chart">
-                  <div className="pie-center">
-                    <span className="dollar-symbol">$</span>
-                  </div>
-                </div>
-                <div className="chart-bars">
-                  <div className="bar bar-1"></div>
-                  <div className="bar bar-2"></div>
-                  <div className="bar bar-3"></div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="calculator">
-              <div className="calc-display">655000</div>
-              <div className="calc-buttons">
-                <div className="calc-row">
-                  <div className="calc-btn"></div>
-                  <div className="calc-btn"></div>
-                  <div className="calc-btn"></div>
-                  <div className="calc-btn"></div>
-                </div>
-                <div className="calc-row">
-                  <div className="calc-btn"></div>
-                  <div className="calc-btn"></div>
-                  <div className="calc-btn"></div>
-                  <div className="calc-btn"></div>
-                </div>
-                <div className="calc-row">
-                  <div className="calc-btn"></div>
-                  <div className="calc-btn"></div>
-                  <div className="calc-btn"></div>
-                  <div className="calc-btn"></div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="coins">
-              <div className="coin coin-1"></div>
-              <div className="coin coin-2"></div>
-              <div className="coin coin-3"></div>
-            </div>
-            
-            <div className="people">
-              <div className="person person-1">
-                <div className="person-body"></div>
-                <div className="person-head"></div>
-              </div>
-              <div className="person person-2">
-                <div className="person-body"></div>
-                <div className="person-head"></div>
-              </div>
-            </div>
-            
-            <div className="magnifying-glass">
-              <div className="glass-circle"></div>
-              <div className="glass-handle"></div>
-            </div>
-            
-            <div className="receipt">
-              <div className="receipt-lines">
-                <div className="receipt-line"></div>
-                <div className="receipt-line"></div>
-                <div className="receipt-line"></div>
-                <div className="receipt-line"></div>
-              </div>
-            </div>
-          </div>
+          <img 
+            src="abc\expense_app\src\components\loginpage\budget185-removebg-preview.png" 
+            alt="Expense Tracker Illustration" 
+            className="illustration-image"
+          />
         </div>
       </div>
 
