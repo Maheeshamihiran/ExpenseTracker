@@ -39,23 +39,30 @@ const SignUp: React.FC<SignUpProps> = ({ onSignup, onGoToLogin }) => {
 
   return (
     <div className="signup-container">
-      <div className="signup-left">
+      <div className="signup-left-1">
         <div className="brand">
           <span className="dollar-icon">$</span>
           <span className="brand-text">Expense Tracker</span>
         </div>
+         <div className="quote-section-1">
+          <p className="quote-text-1">
+           "Your financial goals are within reach.<br/>
+            Sign up to start tracking your expenses and<br/>
+            Sign in to keep monitoring your<br/>
+            spending, stay on top of <br/>
+            your budget and make confident<br/>
+            money decisions <br/>
+            every day."
+          </p>
+         </div>
         
-        <div className="illustration">
-          <img 
-            src="abc\expense_app\src\components\loginpage\budget185-removebg-preview.png" 
-            alt="Expense Tracker Illustration" 
-            className="illustration-image"
-          />
-        </div>
+       
       </div>
 
-      <div className="signup-right">
+      <div className="signup-right-1">
+         
         <div className="signup-form-container">
+          
           <h2 className="signup-title">Create a Account</h2>
           
           <form onSubmit={handleSubmit} className="signup-form">
@@ -123,8 +130,17 @@ const SignUp: React.FC<SignUpProps> = ({ onSignup, onGoToLogin }) => {
               Signin
             </button>
           </div>
+          
         </div>
+        
       </div>
+      <div className="illustration-1">
+          <img 
+            src="/budget185-removebg-preview.png" 
+            alt="Expense Tracker Illustration" 
+            className="illustration-image-1"
+          />
+        </div>
     </div>
   );
 };

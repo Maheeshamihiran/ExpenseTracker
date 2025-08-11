@@ -3,15 +3,16 @@
   display: flex;
   height: 100vh;
   width: 100%;
+  background-color: #1A2E35;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
 }
 
-.signup-left {
-  flex: 0.6;
-  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+.signup-left-1 {
+  flex: 0.4;
+  background: #1A2E35 100%;
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  padding: 1rem;
   position: relative;
   overflow: hidden;
 }
@@ -24,7 +25,7 @@
 }
 
 .dollar-icon {
-   color: #5CE3A4;
+   color: #1fde85;
   font-size: 3.0rem;
   font-weight: bold;
 }
@@ -34,28 +35,43 @@
   font-size: 2.25rem;
   font-weight: 600;
 }
-
-.illustration {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+.quote-section-1 {
+  margin: 3rem 0 2rem 0;
+  z-index: 10;
 }
 
-.illustration-image {
-  width: 100%;
-  max-width: 500px;
-  height: auto;
-  object-fit:   fill;
+.quote-text-1 {
+  color: white;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  font-style: italic;
+  max-width: 400px;
 }
 
-.signup-right {
+.illustration-1 {
+  position: absolute;
+  top: 50%;
+  left: 500px; /* Adjust as needed */
+  transform: translateY(-40%);
+  z-index: 20;
+  pointer-events: none;
+}
+
+.illustration-image-1 {
+width:400PX;
+height: 400px;
+opacity: 0.2;
+  transition: opacity 0.3s ease;
+}
+
+.signup-right-1 {
   flex: 1;
   background: white;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: white 2px solid;
+  border-radius: 40px 0 0 40px; /* Rounded corners */
   padding: 2rem;
 }
 
