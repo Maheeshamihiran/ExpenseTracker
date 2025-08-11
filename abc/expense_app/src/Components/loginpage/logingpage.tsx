@@ -38,11 +38,13 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoToSignup }) => {
 
   return (
     <div className="login-container">
+         
       <div className="login-left">
         <div className="brand">
           <span className="dollar-icon">$</span>
           <span className="brand-text">Expense Tracker</span>
         </div>
+         
         
         <div className="quote-section">
           <p className="quote-text">
@@ -50,15 +52,17 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoToSignup }) => {
             <br />
             log in to continue managing your expenses."
           </p>
-        </div>
-        
-        <div className="illustration">
+         </div>
+         <div className="illustration">
           <img 
-            src="abc\expense_app\src\components\loginpage\budget185-removebg-preview.png" 
+            src="/budget185-removebg-preview.png" 
             alt="Expense Tracker Illustration" 
             className="illustration-image"
           />
+        
         </div>
+        
+      
       </div>
 
       <div className="login-right">

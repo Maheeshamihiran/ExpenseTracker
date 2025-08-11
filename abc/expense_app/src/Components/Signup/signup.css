@@ -7,7 +7,7 @@
 }
 
 .signup-left {
-  flex: 1;
+  flex: 0.6;
   background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
   display: flex;
   flex-direction: column;
@@ -20,18 +20,18 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  z-index: 10;
+  
 }
 
 .dollar-icon {
-  color: #48bb78;
-  font-size: 1.5rem;
+   color: #5CE3A4;
+  font-size: 3.0rem;
   font-weight: bold;
 }
 
 .brand-text {
-  color: #48bb78;
-  font-size: 1.25rem;
+  color: #5CE3A4;
+  font-size: 2.25rem;
   font-weight: 600;
 }
 
@@ -47,7 +47,7 @@
   width: 100%;
   max-width: 500px;
   height: auto;
-  object-fit: contain;
+  object-fit:   fill;
 }
 
 .signup-right {
