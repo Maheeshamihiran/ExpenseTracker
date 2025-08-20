@@ -15,6 +15,8 @@
   padding: 1rem;
   position: relative;
   overflow: hidden;
+
+  align-items:center;
 }
 
 .brand {
@@ -38,6 +40,8 @@
 .quote-section-1 {
   margin: 3rem 0 2rem 0;
   z-index: 10;
+  align-items: center;
+  
 }
 
 .quote-text-1 {
@@ -45,6 +49,7 @@
   font-size: 1.1rem;
   line-height: 1.8;
   font-style: italic;
+  align-items: center;
   max-width: 400px;
 }
 
