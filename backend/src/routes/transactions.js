@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const authenticateToken = require('../middleware/auth');
 const {
   getAllTransactions,
   createTransaction,
@@ -7,9 +8,10 @@ const {
   deleteTransaction
 } = require('../controllers/transactionController');
 
-router.get('/', getAllTransactions);
-router.post('/', createTransaction);
-router.put('/:id', updateTransaction);
-router.delete('/:id', deleteTransaction);
+// All transaction routes require authentication
+router.get('/', authenticateToken, getAllTransactions);
+router.post('/', authenticateToken, createTransaction);
+router.put('/:id', authenticateToken, updateTransaction);
+router.delete('/:id', authenticateToken, deleteTransaction);
 
 module.exports = router;
