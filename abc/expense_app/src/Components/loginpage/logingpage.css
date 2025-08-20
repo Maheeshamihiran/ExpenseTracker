@@ -63,6 +63,14 @@
   max-width: 500px;
   height: auto;
   object-fit: contain;
+  z-index: 5;
+}
+
+.illustration-image {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  object-fit: contain;
 }
 
 .login-right {
